@@ -68,7 +68,7 @@ const UserManager = () => {
       <h2>Users</h2>
       <ul>
         {users.map(user => (
-          <li key={user.id}>{user.nombre_usuario} - {user.correo}</li>
+          <li key={user[0]}>{user[1]} - {user[2]}</li>
         ))}
       </ul>
     </div>
@@ -76,3 +76,4 @@ const UserManager = () => {
 };
 
 export default UserManager;
+
