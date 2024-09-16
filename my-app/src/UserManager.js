@@ -68,7 +68,7 @@ const UserManager = () => {
       <h2>Users</h2>
       <ul>
         {users.map(user => (
-          <li key={user.nombre_usuario}>{user.nombre_usuario} - {user.correo}</li>
+          <li key={user.id}>{user.nombre_usuario} - {user.correo}</li>
         ))}
       </ul>
     </div>
