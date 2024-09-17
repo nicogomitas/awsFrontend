@@ -1,47 +1,78 @@
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import UserManager from './UserManager';
 
-// Mock de axios
-jest.mock('axios');
+const UserManager = () => {
+  const [users, setUsers] = useState([]);
+  const [nombreUsuario, setNombreUsuario] = useState('');
+  const [correo, setCorreo] = useState('');
+  const [contrasena, setContrasena] = useState('');
 
-describe('UserManager', () => {
-  test('renders UserManager component', () => {
-    render(<UserManager />);
-    expect(screen.getByText('Register User')).toBeInTheDocument();
-  });
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
-  test('fetches and displays users', async () => {
-    const users = [
-      [1, 'nicole', 'nicole.gomez01@usa.edu.co'],
-      [2, 'rodolfo', 'radolfo_ama_jesus@gmail.com']
-    ];
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get('http://ec2-35-174-220-50.compute-1.amazonaws.com:5000/users');
+      setUsers(response.data);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
 
-    axios.get.mockResolvedValue({ data: users });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post('http://ec2-35-174-220-50.compute-1.amazonaws.com:5000/add_user', {
+        nombre_usuario: nombreUsuario,
+        correo,
+        contrasena
+      });
+      setNombreUsuario('');
+      setCorreo('');
+      setContrasena('');
+      fetchUsers(); // Refresh the list of users
+    } catch (error) {
+      console.error('Error adding user:', error);
+    }
+  };
 
-    render(<UserManager />);
+  return (
+    <div>
+      <h1>Register User</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Nombre Usuario"
+          value={nombreUsuario}
+          onChange={(e) => setNombreUsuario(e.target.value)}
+          required
+        />
+        <input
+          type="email"
+          placeholder="Correo"
+          value={correo}
+          onChange={(e) => setCorreo(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Contraseña"
+          value={contrasena}
+          onChange={(e) => setContrasena(e.target.value)}
+          required
+        />
+        <button type="submit">Add User</button>
+      </form>
 
-    await waitFor(() => {
-      expect(screen.getByText('nicole - nicole.gomez01@usa.edu.co')).toBeInTheDocument();
-      expect(screen.getByText('rodolfo - radolfo_ama_jesus@gmail.com')).toBeInTheDocument();
-    });
-  });
+      <h2>Users</h2>
+      <ul>
+        {users.map(user => (
+          <li key={user[0]}>{user[1]} - {user[2]}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
-  test('submits form and clears input fields', async () => {
-    axios.post.mockResolvedValue({ data: { message: 'User added successfully!' } });
-
-    render(<UserManager />);
-
-    fireEvent.change(screen.getByPlaceholderText('Nombre Usuario'), { target: { value: 'juan' } });
-    fireEvent.change(screen.getByPlaceholderText('Correo'), { target: { value: 'juan@example.com' } });
-    fireEvent.change(screen.getByPlaceholderText('Contraseña'), { target: { value: '123456' } });
-    fireEvent.click(screen.getByText('Add User'));
-
-    await waitFor(() => {
-      expect(screen.getByPlaceholderText('Nombre Usuario').value).toBe('');
-      expect(screen.getByPlaceholderText('Correo').value).toBe('');
-      expect(screen.getByPlaceholderText('Contraseña').value).toBe('');
-    });
-  });
-});
+export default UserManager;
