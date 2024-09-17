@@ -11,7 +11,17 @@
 form {
   margin-bottom: 20px; /* Separar el formulario de la lista de usuarios */
 }
+h1 {
+  font-family: 'Times New Roman', Times, serif; /* Aplica la fuente Times New Roman */
+  font-weight: bold; /* Negrilla */
+  font-size: 2.5rem; /* Tamaño de fuente */
+}
 
+.user-list-container h2 {
+  font-family: 'Times New Roman', Times, serif; /* Aplica la fuente Times New Roman */
+  font-weight: bold; /* Negrilla */
+  font-size: 2rem; /* Tamaño de fuente */
+}
 input {
   margin: 10px; /* Añadir espacio alrededor de los inputs */
   padding: 10px;
@@ -23,13 +33,13 @@ button {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #61dafb;
+  background-color: #ff69b4; /* Color rosado */
   color: white;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #21a1f1;
+  background-color: #ff85b3; /* Color rosado más claro al pasar el ratón */
 }
 
 ul {
@@ -41,3 +51,69 @@ li {
   margin: 10px 0; /* Añadir espacio entre los elementos de la lista */
 }
 
+@keyframes sparkle {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+.sparkles {
+  position: relative;
+  display: inline-block;
+}
+
+.sparkle-effect {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #ffcc00; /* Color de los brillitos */
+  border-radius: 50%;
+  animation: sparkle 1s ease-out forwards;
+  pointer-events: none;
+  top: -10px;
+  left: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+}
+
+.sparkle-active .sparkle-effect {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  animation: sparkle 1s ease-out forwards;
+}
+
+.user-list-container {
+  background-color: #ffebf0; /* Fondo rosado claro */
+  border: 2px solid #ff69b4; /* Borde rosado más fuerte */
+  border-radius: 10px; /* Esquinas redondeadas */
+  padding: 10px; /* Espaciado interno */
+  margin-top: 20px; /* Espacio superior */
+}
+
+.user-list-container h2 {
+  margin-top: 0; /* Quitar margen superior en el título */
+}
+
+.user-list-container ul {
+  list-style-type: none; /* Quitar viñetas de la lista */
+  padding: 0; /* Quitar espaciado interno de la lista */
+}
+
+.user-list-container li {
+  padding: 5px 0; /* Espaciado vertical en cada elemento de la lista */
+  border-bottom: 1px solid #ff69b4; /* Línea rosada entre elementos */
+}
+
+.user-list-container li:last-child {
+  border-bottom: none; /* Quitar línea en el último elemento */
+}

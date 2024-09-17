@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './App.css'; // Asegúrate de que el archivo CSS esté importado
 
 const UserManager = () => {
   const [users, setUsers] = useState([]);
   const [nombreUsuario, setNombreUsuario] = useState('');
   const [correo, setCorreo] = useState('');
   const [contrasena, setContrasena] = useState('');
+  const [showSparkle, setShowSparkle] = useState(false); // Estado para controlar el efecto de brillitos
 
   useEffect(() => {
     fetchUsers();
@@ -31,14 +33,23 @@ const UserManager = () => {
       setNombreUsuario('');
       setCorreo('');
       setContrasena('');
-      fetchUsers(); // Refresh the list of users
+      fetchUsers(); // Refrescar la lista de usuarios
+
+      // Mostrar el efecto de brillitos
+      setShowSparkle(true);
+      
+      // Eliminar el efecto de brillitos después de 1 segundo
+      setTimeout(() => {
+        setShowSparkle(false);
+      }, 3000);
+      
     } catch (error) {
       console.error('Error adding user:', error);
     }
   };
 
   return (
-    <div>
+    <div className="App">
       <h1>Register User</h1>
       <form onSubmit={handleSubmit}>
         <input
@@ -62,15 +73,20 @@ const UserManager = () => {
           onChange={(e) => setContrasena(e.target.value)}
           required
         />
-        <button type="submit">Add User</button>
+        <button type="submit" className={`sparkles ${showSparkle ? 'sparkle-active' : ''}`}>
+          Add User
+          <span className="sparkle-effect"></span>
+        </button>
       </form>
 
-      <h2>Users</h2>
-      <ul>
-        {users.map(user => (
-          <li key={user[0]}>{user[1]} - {user[2]}</li>
-        ))}
-      </ul>
+      <div className="user-list-container">
+        <h2>Users</h2>
+        <ul>
+          {users.map(user => (
+            <li key={user.id}>{user.nombre_usuario} - {user.correo}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
