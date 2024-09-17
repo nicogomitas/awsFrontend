@@ -80,7 +80,7 @@ const UserManager = () => {
       </form>
 
       <div className="user-list-container">
-        <h2>Users</h2>
+        <h2>Usuarios</h2>
         <ul>
           {users.map(user => (
             <li key={user.id}>{user.nombre_usuario} - {user.correo}</li>
