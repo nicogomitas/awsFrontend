@@ -13,7 +13,7 @@ const UserManager = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://ec2-18-207-226-171.compute-1.amazonaws.com:5000/users');
+      const response = await axios.get('http://ec2-35-174-220-50.compute-1.amazonaws.com:5000/users');
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -23,7 +23,7 @@ const UserManager = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://ec2-18-207-226-171.compute-1.amazonaws.com:5000/add_user', {
+      await axios.post('http://ec2-35-174-220-50.compute-1.amazonaws.com:5000/add_user', {
         nombre_usuario: nombreUsuario,
         correo,
         contrasena
