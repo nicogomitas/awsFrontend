@@ -50,7 +50,7 @@ const UserManager = () => {
 
   return (
     <div className="App">
-      <h1>Register User</h1>
+      <h1>Registro de usuario</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
